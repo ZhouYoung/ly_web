@@ -8,7 +8,7 @@ UserName = "Admin-S"
 Face = ""
 sex = ""
 HomePage = Request.form("homepage")
-Email = "xyt3436@qq.com"
+Email = "admin6@qq.com"
 Subject = Request.form("title")
 content = Request.form("txt")
 content = Replace(content,"imgsrc=", "img src=")

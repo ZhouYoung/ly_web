@@ -8,7 +8,7 @@ QQ:859867801
 <%
 Server.ScriptTimeOut = 500
 
-postUrl = "http://www.cdakj.cn/bbs/sprider_post.asp"
+postUrl = "http://localhost:81/sprider_post.asp"
 
 '获取列表
 msg = getHTTPPage("http://app.taxwen.com/taxcloud/read/find/getAllClassify")
@@ -105,19 +105,17 @@ Public Function getTime()
 End Function
 
 
-
-
 function PostHTTPPage(url,data)
-dim Http
-set Http=server.createobject("MSXML2.SERVERXMLHTTP.3.0")
-Http.open "POST",url,false
-Http.setRequestHeader "CONTENT-TYPE", "application/x-www-form-urlencoded"
-Http.send(data)
-if Http.readystate<>4 then
-exit function
-End if
-PostHTTPPage=bytesToBSTR1(Http.responseBody,"utf-8")
-set http=nothing
+	dim Http
+	set Http=server.createobject("MSXML2.SERVERXMLHTTP.3.0")
+	Http.open "POST",url,false
+	Http.setRequestHeader "CONTENT-TYPE", "application/x-www-form-urlencoded"
+	Http.send(data)
+	if Http.readystate<>4 then
+	exit function
+	End if
+	PostHTTPPage=bytesToBSTR1(Http.responseBody,"utf-8")
+	set http=nothing
 
 End Function
 
@@ -150,54 +148,37 @@ End Function
     If objXML.readystate<>4 then
         exit function
     End If
-    getHTTPPage=BytesToBstr(objXML.responseBody)
+    getHTTPPage=bytesToBSTR1(objXML.responseBody,"utf-8")
     set objXML=nothing
     if err.number<>0 then err.Clear
 End Function
 
-
-Function BytesToBstr(body)
-dim objstream
-set objstream = CreateObject("adodb.stream")
-    objstream.Type = 1
-    objstream.Mode =3
-    objstream.Open
-    objstream.Write body
-    objstream.Position = 0
-    objstream.Type = 2
-    objstream.Charset = "utf-8"
-    BytesToBstr = objstream.ReadText
-objstream.Close
-set objstream = nothing
-end Function
-
-
 Function RegExpTest(patrn, strng)
-Dim regEx, Match, Matches ' 建立变量。
-Set regEx = New RegExp ' 建立正则表达式。
-regEx.Pattern = patrn ' 设置模式。
-regEx.IgnoreCase = True ' 设置是否区分大小写。
-regEx.Global = True ' 设置全程可用性。
+	Dim regEx, Match, Matches ' 建立变量。
+	Set regEx = New RegExp ' 建立正则表达式。
+	regEx.Pattern = patrn ' 设置模式。
+	regEx.IgnoreCase = True ' 设置是否区分大小写。
+	regEx.Global = True ' 设置全程可用性。
 
-Set Matches = regEx.Execute(strng) ' 执行搜索。
-For Each Match in Matches ' 遍历 Matches 集合。
+	Set Matches = regEx.Execute(strng) ' 执行搜索。
+	For Each Match in Matches ' 遍历 Matches 集合。
 
-RetStr = RetStr & Match.SubMatches(0) & "," '值为123和44的数组
+	RetStr = RetStr & Match.SubMatches(0) & "," '值为123和44的数组
 
-Next
-RegExpTest = Split(RetStr, ",")
+	Next
+	RegExpTest = Split(RetStr, ",")
 End Function 
 
 
 '正则替换函数
 Function ReplaceHTML(srcstr, patrn, replStr)
-Set regEx = New RegExp
-regEx.Pattern = patrn
-regEx.IgnoreCase = True
-regEx.Global = True
-regEx.Execute(srcstr)
-ReplaceHTML = regEx.Replace(srcstr, replStr)
-Set regEx = Nothing
+	Set regEx = New RegExp
+	regEx.Pattern = patrn
+	regEx.IgnoreCase = True
+	regEx.Global = True
+	regEx.Execute(srcstr)
+	ReplaceHTML = regEx.Replace(srcstr, replStr)
+	Set regEx = Nothing
 End Function
 
 %>
